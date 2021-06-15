@@ -5,7 +5,7 @@ name: Python application - Prod
 
 env:
   REGISTRY: "registry.digitalocean.com/gitops"
-  IMAGE_NAME: "GitOps-Prod"
+  IMAGE_NAME: "helloworld-prod"
   COMMAND: "python app.py"
 
 on:
