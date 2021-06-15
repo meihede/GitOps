@@ -43,7 +43,7 @@ jobs:
 
   BuildAndPushDockerImage:
     runs-on: ubuntu-latest
-    if: github.envent_name == 'push'
+    #if: github.event_name == 'push'
     needs: BuildAndTest
     steps:
       - name: Checkout master
@@ -65,7 +65,7 @@ jobs:
 
   DeployDockerImage:
     runs-on: ubuntu-latest
-    if: github.event_name == 'push'
+    #if: github.event_name == 'push'
     needs: BuildAndPushDockerImage
 
     steps:
