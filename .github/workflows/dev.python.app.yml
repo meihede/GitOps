@@ -10,9 +10,9 @@ env:
 
 on:
   push:
-    branches: [ main ]
+    branches: [ dev ]
   pull_request:
-    branches: [ main ]
+    branches: [ dev ]
 
 jobs:
 
@@ -45,6 +45,7 @@ jobs:
     name: Build and Push Docker Image
     runs-on: ubuntu-latest
     #if: github.event_name == 'push'
+    #token for registry 2742d94b0116a85cb8e3077dffe936079fd922dfc5517f16bd2757b68d4ec3b1
     needs: BuildAndTest
     steps:
       - name: Checkout master
@@ -76,7 +77,8 @@ jobs:
         with:
           HOST: ${{ secrets.APP_HOST }}
           USERNAME: ${{ secrets.APP_USERNAME }}
-          KEY: ${{ secrets.SSHKEY }}
+          #KEY: ${{ secrets.SSHKEY }}
+          password: ${{ secrets.APP_PASSWORD }}
           envs: IMAGE_NAME,REGISTRY,GITHUB_SHA,COMMAND
           script: |
             # Stop running container
@@ -88,7 +90,6 @@ jobs:
             # Run a new container from a new image
             docker run -d \
             --restart always \
-            --env-file .env \
             -p 80:80 \
             --name $(echo $IMAGE_NAME) \
             $(echo $REGISTRY)/$(echo $IMAGE_NAME):$(echo $GITHUB_SHA | head -c7) $(echo $COMMAND)
